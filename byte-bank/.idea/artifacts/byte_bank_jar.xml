@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="byte-bank:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/byte_bank_jar</output-path>
+    <root id="archive" name="byte-bank.jar">
+      <element id="module-output" name="byte-bank" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.1.0/annotations-23.1.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
