@@ -1,0 +1,573 @@
+A orientação a objetos tem essa ideia de que dados e comportamentos (funcionalidades) devem estar centralizados, ou seja, se precisar de algum comportamento novo, basta mudar em um lugar e em todos códigos que usam esse comportamento já estarão atualizados.
+
+============REFERÊNCIAS============
+
+Quando criamos uma variável que recebe uma nova instância de uma classe, ela nunca será realmente esse objeto criado, mas sim uma referência na memória para aquele objeto.
+
+============NullPointerException============
+
+Essa exception acontece quando tentamos acessar algum atributo de um objeto que ainda não foi iniciado. Ela acontece pois quando um objeto não é iniciado,  ele recebe o valor null como padrão.
+
+============ENCAPSULAMENTO============
+
+Encapsulamento é manter o que não precisa ser acessado fora do acesso.
+
+Por exemplo, nunca é bom deixar possível fazer a alteração e a visualização de atributos de um objeto por meio de atribuição, o correto é que essas ações sejam feitas por meio de métodos com as regras que criamos, para evitar falhas e etc.
+Quando definimos atributos privados e métodos para a manipulação desses atributos estamos aplicando o encapsulamento.
+
+============GETTERS / SETTERS============
+
+Nem sempre é bom termos getters e setters na nossa classe como único meio de visualização e modificação de atributos. Quando fazemos sempre dessa forma, corremos o risco de criarmos classes fantoches/Value Objects, que são classes que apenas guardam dados e não possuem os comportamentos/lógicas na classe em si. Em alguns casos usamos muito essas classes fantoches, mas na maioria das vezes não é uma boa ideia, pois podemos acabar tendo um Modelo Anêmico sem querer, ou seja, uma classe que deveria ter os comportamentos definidos nela mesma, mas tem apenas os getters e setters como forma de manipulação dos atributos, sendo necessário fazer a lógica necessária fora da classe.
+
+============CONSTRUTORES============
+
+Podemos ter vários construtores que dependem dos parâmetros que forem passados. O java cria um construtor que não recebe nenhum argumento por padrão quando não criamos nenhum construtor, mas quando criamos algum, ele passa a ser o único disponível, a não ser que criemos mais de um, isso nos permite criar regras para a instanciação da nossa classe.
+
+============HERANÇA============
+
+Herança nada mais é do que uma classe que herda todas as características de uma outra classe, e a sintaxe que utilizamos para fazer essa herança é escrever "extends <nome da classe a ser herdada>" depois da declaração da nova classe que estamos criando. Essa classe que está herdando de outra classe poderá ter atributos, métodos e lógicas diferentes da classe que ela herda, mas também terá tudo o que a classe pai tem. Podemos sobrescrever métodos para mudar eles, mas as vezes é necessário tornarmos um atributo "protected" em vez de privado.
+
+============protected============
+
+É o meio termo entre "public" e "private". Ele deixa o atributo acessível apenas para os filhos da classe pai, ou seja, podemos acessar o atributo diretamente sem um getter ou setter na classe que está herdando. Isso é muito útil quando temos algum método que irá aplicar uma lógica que necessita fazer ações com o atributo herdado da classe pai. Normalmente quando vamos acessar um atributo da classe pai, usamos a palavra chave super antes de passarmos o caminho para o atributo.
+
+============super============
+
+super é parecido com o this, mas em vez de representar a instância da classe que estamos criando, representa a classe pai que a classe filha herdou.
+
+Essa palavra chave funciona tanto com atributos quanto com métodos, inclusive, podemos acessar um método da classe pai que foi modificado na classe filha só que antes de ocorrer essa modificação.
+
+============SOBRECARGA/SOBRESCRITA============
+
+Sobrecarga é quando temos duas implementações do mesmo método que variam a quantidade ou os tipos de parâmetros que recebem. O que acontece é que dependendo do que passarmos para o método, ele irá se comportar de uma forma diferente, conforme as implementações que fizemos.
+
+Sobrescrita é quando passamos o mesmo método de forma idêntica mas mudando a lógica que está dentro das chaves. Isso normalmente é usado quando estamos tratando de herança e queremos mudar o comportamento de um método declarado na classe mãe quando acessado a partir da classe filha.
+
+============POLIMORFISMO============
+
+Podemos atribuir uma referência de uma nova instância de uma classe filha para uma variável com o tipo da classe mãe. Isso não funciona quando fazemos o procedimento inverso.
+Isso ocorre porque toda clase filha também é a classe mãe, mas a classe mãe não é toda classe filha.
+Para isso ficar mais claro, basta imaginar que sempre podemos faer esse processo para qualquer classe acima da que estamos instanciando.
+
+Isso é polimorfismo.
+
+Vantagem do polimorfismo:
+
+  Imagine que tem uma porta que controla a entrada de funcionários em uma sala de uma empresa para falar com um contador que irá peencher a bonificação de cada funcionário em uma planilha. Nessa porta irá entrar diversos funcionários com cargos diferentes, ou seja, com regras de bonificação diferentes. O que irá diferenciar esses funcionários na hora de preencher a bonificação na planilha é a informação que eles passam para o contador, pois não existe uma porta para cada cargo de funcionário.
+
+  Levando em consideração a premissa a cima, o mesmo vale se fôssemos aplicar essa regra em código usando o polimorfismo. O nosso método que seria o contador receberia como parâmetro apenas o tipo "Funcionario" para não ficarmos repetindo código para cada tipo que herda de funcionário. Assim o polimorfismo seria aplicado e qualquer instância que passassemos receberia o tipo "Funcionario", mas tem um detalhe muito importante, os métodos de bonificação continuariam com as alterações feitas na classe filha, pois houve uma sobrescrita e o Java saberá o método certo a ser chamado, mesmo que o tipo tenha mudado para a superclass.
+
+Se esse método não existir também na superclass talvez não funcione, tenho que fazer uns testes.
+
+============CONSTRUTOR============
+
+Quando estamos criando uma nova classe que herda de outra classe e precisamos de um construtor para instanciar o nosso objeto, o java sempre vai executar um construtor sem argumentos na classe mãe utilizando o super();. Esse construtor pode não existir se escrevermos outro construtor que recebe argumentos e não criarmos explicitamente o padrão.
+
+Para evitar o erro que isso causa, basta chamarmos o super(<...args>); que ele executará o construtor certo da classe super.
+
+============CLASSES ABSTRATAS============
+
+Quando se trata de herança, é comum que uma classe mãe como "Funcionario", por exemplo, não seja instanciada nenhuma vez e sirva apenas de base para as classes filhas. Esse caso é um exemplo de classe abstrata, mas ainda é possível instanciarmos um objeto da classe "Funcionario".
+Para que o Java entenda que a classe abstrata em questão é realmente abstrata, utilizamos a palavra chave "abstract" antes da palavra chave class. Dessa forma não é mais possível criar novos objetos da classe em questão.
+
+============MÉTODOS ABSTRATATOS============
+
+Métodos abstratos são métodos que não possuem um corpo, ou seja, eles estão declarado e podem ser usados quando o polimorfismo é aplicado, mas eles realmente precisam ser sobrescritos nas classes filhas, pois não fazem nada originalmente.
+
+============CLASSES INTERMEDIÁRIAS============
+
+Podemos ter uma classe, seja abstrata ou não, que herda de outra classe e que, por sua vez, vai ser herdada por outra classe.
+
+Isso pode ser muito útil quando teremos algumas classes que herdam de uma classe mãe, mas necessitam de mais coisas em comum que a classe mãe não tem.
+
+É importante lembrar que todas classes que herdarem da classe intermediária também herdarão da classe mãe das classes intermediária, ou seja, terão todas as propriedades e métodos que ela.
+
+============HERANÇA MÚLTIPLA============
+
+Herança múltipla é quando uma classe estende mais de uma classe.
+
+Isso é propositalmente proibido no Java, pois pode causar uma bagunça, mas existem linguagens que aceitam isso como Python e C++.
+
+============INTERFACE============
+
+Podemos pensar em interfaces como classes abstratas com apenas métodos abstratos, ou seja, sem nada concreto dentro (atributos são concretos).
+
+Uma interface é como um contrato, isto é, se uma classe *implements* essa interface, ela deve obrigatoriamente sobrescrever todos os métodos declarados nessa interface, assim fazendo com que a classe possua todos os métodos necessários sem que necessite da herança deles pela classe mãe.
+
+Vale a pena lembrar:
+
+  Interfaces também são um tipo válido para referências, assim conseguimos atribuir um objeto de qualquer tipo que implemente essa interface para essa referência.
+
+  Qualquer classe pode assinar esse contrato e, inclusive, pode assinar mais de um contrato.
+
+  Sempre que implementamos uma interface, teremos que implementar os métodos declarados na interface na nossa classe, o que gera bastante repetição de código. Para combater isso, podemos criar uma classe que terá os mesmos métodos que a interface, mas não implementará ela, e nas classes que implementamos a interface apenas criamos um atributo com uma instância dessa nova classe com a lógica dos métodos e no @Override dos métodos da interface passamos apenas a chamada para os métodos dessa instância que criamos. Isso se chama composição.
+
+Para manter isso em mente, basta lembrarmos que se tivermos uma lógica que se repete, o melhor é que coloquemos ela emum lugar só, isso citado acima é meio que como uma gambiarra inteligente para fazer isso.
+
+Utilizamos interfaces para podermos utilizar o polimorfismo sem a herança (não é o único caso de uso, mas podemos pensar assim).
+
+============COMPOSIÇÃO============
+
+Composição é quando uma classe depende de uma outra classe para alguma lógica ou algo do tipo. Isso ocorre quando temos uma classe que recebe uma instância de uma outra classe para fazer o uso de alguns métodos que tem alguma lógica que seria repetida se não fizessemos isso.
+
+============HERANÇA || INTERFACES || COMPOSIÇÃO============
+
+Herança:
+
+  - Reutilização de código
+  - Polimorfismo
+
+Interfaces:
+
+  - Polimorfismo
+
+Composição:
+
+  - Reutilização de código
+
+============ENUM============
+
+Enums são classes que não podem ser instanciadas e com o construtor privado.
+
+A grande diferença delas é que todas as intâncias que poderão existir dessa classe são instanciadas dentro da própria classe, podendo acessar o construtor, atributos, métodos e etc.
+
+A vantagem de ter algo assim é que como temos apenas essas instâncias da classe, os valores que essas instâncias vão ter serão constantes, ou seja, nunca vão mudar, e isso é muito valioso as vezes.
+Um exemplo de uso inteligente dos enums é o da classe Thread que tem um método que define a prioridade de execução das threads. Esse método aceita números inteiros para definir essa prioridade, mas aceita literalmente qualquer número inteiro, o que muitas vezes deixa a legibilidade muito ruim. Para isso, a classe Thread utiliza os enums que tem valores inteiros fixos que representam o nível de prioridade sem que nós precisemos saber o valor inteiro em si, mas sabemos qual é a prioridade pelo nome.
+
+Como todo enum extende a classe Enum, eles sempre têm vários atributos e métodos que dão acesso a diversas informações. 
+
+============ANNOTATION============
+
+Annotations são anotações feitas com um "@" antes e que definem uma série de regras no nosso projeto.
+
+As annotations vieram para diminuir o uso excessivo e maçante dos arquivos .xml, que eram os responsáveis por fazer a grande maioria das configurações a um tempo atrás.
+
+Com as annotations, conseguimos definir regras de um jeito muito mais fácil e rápido.
+
+Normalmente, outra biblioteca lê a annotation que colocamos no nosso código e assim entende o que deve fazer a partir disso.
+
+As annotations mais comuns são aquelas que são lidas (a partir da API Reflection) pela JVM quando ela roda nosso código, mas também existem annotations que são lidas pelo próprio compilador, como a @Override, por exemplo.
+
+Podemos criar novas anotações, mas isso só faz sentido quando queremos criar ou modificar alguma anotação para alguma biblioteca que vai lê-la, ou quando estamos criando alguma biblioteca nova que vai precisar ler algumas configurações do código de quem for utilizá-la.
+
+Quando criamos uma nova annotation, utilizamos o "@interface".
+
+Assim como a interface, ela não pode ter nenhuma implementação de nada.
+
+Ela precisa ter, pelo menos, duas anotações. Isso ocorre porque é necessário informar onde a annotation funciona, seja método, atributo, etc. e se ela deve funcionar para o compilador ou em runtime.
+
+============STACK============
+
+Stack é a pilha de execução. Sempre que executa algo novo entra na pilha e quando termina de ser executado sai da pilha. Sempre volta pro main no final, até o main sair da pilha.
+
+============EXCEÇÕES============
+
+Quando acontece uma exceção no nosso stack, essa exceção vai voltando para tudo que tinha no stack e lançando ela até finalizar tudo e chegar no console. Para driblar isso, podemos tratar as exceções em algum ponto da stack em que o erro vai cair.
+Para fazer esse tratamento, podemos usar o:
+
+try {
+  <código que pode dar erro>
+} catch(<tipo da exceção> ex) {
+  <ação para lidar com o erro>
+}
+
+Podemos fazer isso no próprio código que pode dar o erro ou em qualquer lugar da stack que o erro possa cair.
+
+A exceção que o catch captura é uma referência, podemos usar ela e os métodos dela para mostrarmos o stack e a mensagem de erro no console, por exemplo.
+
+Podemos ter vários "catch" encadeados para lidarmos com vários tipos de exceções, mas também podemos usar o "|", para lidarmos com mais de um tipo de exceção, o que ficaria mais ou menos assim:
+
+catch(<tipo 1> | <tipo 2> exception) {
+  <código para lidar com a exceção>
+}
+
+Os tipos de exceções são classes que podem ser instanciadas, ou seja, podemos criar o nosso próprio objeto de erro, mas isso não lançará o erro no nosso stack. Para lançarmos esse erro, temos que usar a palavra chave throw e passando a referência criada na frente do throw.
+
+O throw só funciona com exceções.
+
+============HEAP============
+
+HEAP é o nome dado para o lugar onde os objetos criados ficam na memória.
+
+============HIERARQUIA EXCEÇÕES============
+
+As exceções nativas do java que aparecem para a gente herdam da classe RuntimeException, que herda da classe Exception, que herda da classe Throwable. Essa classe Throwable é a classe mãe das exceptions que tem os métodos e etc que todas exceptions herdam.
+
+Podemos criar a nossa própria exceção, para isso basta criarmos uma classe que herda de RuntimeException e criarmos alguns construtores.
+
+============EXCEPTION x ERROR============
+
+No Java existe um tipo Error, que é semelhante a Exception, mas é focado em erros que serão disparados pela JVM, ou seja, erros de falta de memória, alguma falta de recurso, etc. Error normalmente é utilizado apenas internamente na JVM, por isso nós não o utilizamos.
+
+A classe Error também herda de Throwable.
+
+============CHECKED x UNCHECKED============
+
+Por que devemos herdar da RuntimeException?
+
+A RuntimeException é uma classe de exceções unchecked, ou seja, quando escrevemos um throw para uma exceção que herda dela, o compilador não reclama de nenhuma forma e conseguimos compilar o nosso código corretamente sem nenhum problema.
+Agora, quando temos uma exceção que herda diretamente da classe Exception, o compilador irá reclamar quando tentarmos dar um throw nessa exceção. Isso ocorre porque essa exceção é checked, pois ela herda diretamente de exception e no Java existe essa regra de que as exceções podem ser checked e unchecked.
+Para conseguirmos compilar um código que da um throw em uma exceção checked, precisamos informar diretamente no método que vai gerar essa exceção que ele pode gerar essa exceção. Fazemos isso com a sintaxe:
+
+public String <meu método>() throws <exceção checked> {}
+
+Dessa forma o código compilaria corretamente, mesmo com a exceção sendo checked.
+
+Se fazemos um try / catch no método, não precisamos especificar que ele throws alguma exceção.
+
+O checked serve para deixar explícito que aquele método em específico é perigoso e precisa ser tratado por um try / catch ou especificado no método que chama ele que ele throws aquele tipo de Exception também.
+
+Já que todas as exceções no Java herdam de Exception, podemos fazer um catch polimorfico, mas isso não é uma boa prática de desenvolvimento.
+
+============FINALLY============
+
+O finally é um outro bloco que entra no try / catch e serve para executar uma ação final após o try / catch. Não importa se dá erro ou não, sempre caímos na ação do finally. Isso pode ser muito útil no exemplo de abrirmos uma conexão com alguma aplicação e banco de dados, pois independente de se der erro ou não, queremos fechar essa conexão, pois ela pode continuar consumindo recursos desnecessários.
+
+============TRY WITH RESOURCES============
+
+O try with resources nada mais é do que um try que inicializa um objeto em um referência na abertura do bloco try e fecha ele automaticamente quando termina a execução ou dá erro. Sintaxe:
+
+try (<tipo> <nome referência> = new <tipo>()) {
+  // implementar código
+}
+
+Dessa forma, a referência já estará disponível para uso dentro do bloco try e ela se auto fechará quando terminar a execução do bloco ou der erro, evitando com que a gente escreva códigos gigantes para fazer coisas simples.
+
+Um detalhe importante é que para o try with resources fazer esse fechamento automático que ele faz, a nossa classe precisa *obrigatoriamente* implementar uma interface chamada AutoCloseable. Ela exigirá que a gente sobrescreva o método close() que vem dela, que é o método utilizado para fechar essa nossa intância (normalmente uma conexão).
+
+O que ele realmente faz além de instanciar o objeto na abertura do bloco try é criar automaticamente um bloco finally que sempre irá chamar o método close() da classe.
+
+============EXCEÇÕES PADRÕES============
+
+- NullPointerException:
+
+  A referência da qual estamos chamando métodos tem o valor null, ou seja, não foi inicializada.
+
+- IllegalStateException:
+
+  A referência tem um estado inconsistente.
+
+- IllegalArgumentException:
+
+  Um argumento que não se encaixa nas regras foi passado para um método ou construtor.
+  
+============PACKAGES============
+
+Packages são diretórios como os que temos no explorador de arquivos do Windows, mas não são apenas isso. Eles também mudam o jeito como vamos acessar as nossas classes, assim fazendo com que nós passemos o Full Qualified Name (FQN) delas. Isso significa chamar as classes com a sintaxe:
+
+<nome do package>.<nome da classe>
+
+Utilizamos os packages para organizar o nosso projeto e manter as nossas classes separadas seguindo um padrão.
+
+O padrão de nomeação de packages é colocar uma url ao contrário sem o https:// de início, aí sim começamos a criar nossos pacotes com os nomes normais que daríamos.
+É uma convenção fazer dessa forma para os pacotes terem nomes exclusivos e não gerarem conflitos quando importamos pacotes externos e nem se alguém for usar os nossos pacotes em algum projeto externo.
+
+Os pacotes sempre devem ficar na pasta src, pois é assim que eles são localizados pelo compilador, ou seja, essa pasta src é a pasta root do nosso projeto. Podemos criar outra pasta para testes e afins.
+
+Para não termos que usar o FQN quando utilizamos as nossas classes, podemos usar o:
+
+import <caminho do pacote>.*;
+
+Assim importamos todas as classes do nosso pacote e podemos usar os nomes simples delas.
+
+É bom lembrar que não precisamos importar o pacote inteiro sempre, podemos importar classes específicas também, basta trocar o "*" pelo nome da classe que queremos, assim somente ela será importada.
+
+============MODIFICADORES DE ACESSO============
+
+Os modificadores de acesso são aquelas palavras chaves que colocamos em classes, atributos e métodos, como public, private, protected e etc.
+Eles também mexem diretamente com os nossos pacotes. Por exemplo, se temos uma classe que não está definida como "public", o modificador de acesso vai para default e apenas conseguiremos acessar aquela classe dentro do pacote ao qual ela pertence.
+
+public:
+
+  Qualquer classe de qualquer pacote pode ter acesso.
+
+protected:
+
+  Visível dentro do pacote e público somente para os filhos (atributos/métodos).
+
+default (package private):
+
+  Visível somente dentro do pacote.
+
+  Não existe palavra chave para isso, apenas deixamos class.
+
+private:
+
+  Visível e acessível somente para a classe em sí que possui o atributo/método private.
+
+============JAVADOC============
+
+Funciona mais ou menos como um package.json do node e serve para colocarmos informações sobre a nossa classe e etc. Podemos ter Javadoc em qualquer classe que quisermos e ela vai servir justamente para dar mais informações sobre as classes para as pessoas.
+
+Essa Javadoc é como um comentário, mas com uma sintaxe um pouco diferente:
+
+/**
+*
+* Classe que faz algo bem interessante
+* 
+* @author Raphael Righetti
+* @version 1.0
+*/
+
+Com essa sintaxe isso não é apenas um comentário e sim informações com valor semântico.
+
+A partir desses comentários especiais, podemos gerar uma página completa do nosso javadoc com todas as nossas classes públicas e com as informações que passamos nos comentários. (no vídeo o Nico usou o eclipse para fazer isso, mas com certeza é possível fazê-lo no intellij ou por linha de comando.)
+As classes que não são públicas não aparecem pois são consideradas detalhes de implementação e não podem ser utilizadas por outras classes.
+
+Tags / Anotações do javadoc (lista completa):
+
+    @author (usado na classe ou interface)
+    @version (usado na classe ou interface)
+    @param (usado no método e construtor)
+    @return (usado apenas no método)
+    @exception ou @throws (no método ou construtor)
+    @see
+    @since
+    @serial
+    @deprecated
+
+============GERANDO E UTILIZANDO JAR============
+
+Um arquivo .jar nada mais é do que um arquivo .zip com toda a estrutura dos nossos pacotes e todas as nossas classes compiladas, mas com essa extensão diferente para conseguirmos utilizar como uma biblioteca java.
+
+Podemos gerar um .jar manualmente, mas normalmente fazemos isso com a ajuda da nossa IDE. No IntelliJ, basta criarmos um artefato no Project Structure e buildarmos o artefato na aba build.
+
+O Maven facilita isso para a gente e não ficamos mais dependentes da IDE, basta colocarmos umas configurações de build no nosso pom.xml que quando executarmos os comandos de buildar pelo maven o nosso projeto já gerará um jar com as dependências certas (se não colocamos essas configurações com o assembly no pom.xml, o nosso jar não terá as dependências necessárias e dará um erro).
+
+Para utilizarmos uma biblioteca externa (dependência), devemos pegar o .jar dessa biblioteca em questão e adicionarmos ao Build Path do nosso projeto, assim poderemos realmente utilizar as classes da biblioteca (No IntelliJ, basta abrir o Project Structure, ir em Modules, clicar na aba Dependencies e adicionar o nosso .jar).
+
+O Maven facilita muito isso para a gente, com ele não precisamos ficar fazendo esse processo para adicionarmos as dependências, pois ele faz isso para nós, mas ainda não sei direito como ele funciona, só sei usar no IntelliJ.
+
+Podemos ter um arquivo jar executável. Para isso, basta específicar uma classe que tem o método main quando gerarmos o jar, isso colocará uma configuração no MANIFEST que faz com que essa classe seja executada quando chamarmos o jar via "java -jar".
+
+============java.lang============
+
+java.lang é o único pacote do Java que não precisamos importar nada para utilizarmos as classes, por exemplo, String, System, Exception, e por aí vai.
+
+============String============
+
+Quando criamos uma referência do tipo String, esse valor que passamos para ela se torna um objeto do tipo String.
+
+String é a única classe que não precisa de um new para criar uma instância, apenas passamos a string mesmo.
+
+String é um object literal, ou seja, é um objeto que tem métodos, mas mesmo assim é muito parecido com um literal.
+
+Strings são objetos imutáveis, ou seja, nascem e morrem sem mudar nada neles. Os métodos que alteram a String, na verdade retornam uma nova String modificada.
+
+javadoc String:
+
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html
+
+Como a String é imutável, isso pode causar problemas de desempenho, pois cada String que criamos, inclusive com os métodos de String, é outro objeto imutável que ocupa o heap.
+
+Para passar por cima desse problema que temos a classe StringBuilder, que diferentemente da String, precisa ser instanciada com o new e não é imutável. Com o método append dela podemos mudar o objeto instanciado e não ter que criar outro, o que ajuda muito no desempenho (pensando em grandes escalas).
+
+Importante lembrar que as duas classes implementam a interface CharSequence.
+
+============Object============
+
+Object é o tipo mais genérico possível do Java e tudo estende ele (incluindo os tipos "primitivos", que coloquei entre aspas por que também são objetos, a única diferença é que não são referências, e sim valores).
+
+Se temos um método ou um construtor que recebe uma referência do tipo Object, elá aceitará literalmente qualquer coisa (por conta do polimorfismo), o que é o exemplo do System.out.println();, que não importa o que você passar, ele vai imprimir no console.
+
+============toString();============
+
+toString(); é um método de Object que retorna o FQN da classe e uns números estranhos. Ele dessa forma não serve para muita coisa, mas a ideia dele é que ele pode ser sobrescrito pela nossa classe para ter o comportamento que quisermos.
+
+Quando passamos uma referência para o sout, o que ele faz é executar o método toString(); e mostrar o retorno dele no console, ou seja, se sobrescrevemos esse método e passamos a referência para o sout, é o nosso toString(); que será chamado.
+
+============java.util============
+
+java.util é o pacote que contém as classes que nos permitem trabalhar com estruturas de dados como listas e etc.
+
+============ARRAY============
+
+List<> não é apenas um array, é uma classe de java.util que faz mais coisas além de criar uma lista, mas também podemos criar arrays no Java.
+Para isso, basta usarmos a sintaxe:
+
+<tipo>[] lista = new <tipo>[<quantidade de itens possíveis no array>];
+// int[] intLista = new int[5];
+
+Aquele String[] args do main é um array.
+
+De resto, o array no Java é muito parecido com as outras linguagens, só muda que quando iniciamos o array da forma que mostrei acima, ele já inicializa todas as posições com um valor default, ou seja, se for int, será 0 para todas as posições, se for uma referência de um objeto, será null para todas as posições. A partir daí cabe a nós fazermos a atribuição para cada posição.
+
+Importante lembrar que quando se trata de um array de referências, as referências que serão guardadas no array não são exatamente as referências passadas, mas sim cópias dessas referências que apontam para o mesmo objeto (podemos ter quantas referências quisermos para o mesmo objeto).
+
+============DECLARANDO ARRAY FORMA LITERAL============
+
+Exemplo:
+
+  int[] refs = {1,2,3,4,5};
+
+Em vez de fazer um array que inicia com os valores zerados, podemos criar um array com valores já definidos na sua inicialização, o que chamamos de literal.
+
+Basta passar os valores entra chaves, como no exemplo mostrado acima.
+
+============POLIMORFISMO EM ARRAYS============
+
+Um array aceita o polimorfismo normalmente, mas se quisermos transformar as referências novamente para o tipo específico que elas tinham quando entraram no array, precisamos usar o type casting:
+
+<tipo especifico> ref = (<tipo específico>) array[<index>];
+
+se não passarmos o tipo certo e a referência não puder virar esse tipo específico que passamos, isso gerará uma ClassCastException.
+
+Só precisamos fazer esse cast explícito quando estamos transformando uma referência mais genérica em uma mais específica, pois isso pode dar problema e precisar informar pro compilador que queremos mesmo fazer aquilo. No caso contrário, quando queremos tornar uma referência mais específica em uma mais genérica, o cast acontece, mas fica implicito, ou seja, não somos obrigados a escrevermos ele.
+
+============String[] args============
+
+É um array que sempre especificamos no método main que recebe parâmetros quando a nossa classe é executada pelo terminal que ficam à nossa disposição para usarmos.
+
+Podemos fazer isso pelas IDEs também.
+
+É muito útil para passarmos opções de execução, debug e etc quando executamos a nossa classe.
+
+============java.util.ArrayList============
+
+É uma estrutura de dados que nos permite trabalhar com arrays de forma de mais alto nível, respeitando as boas práticas da orientação a objetos.
+
+Não precisamos colocar um tamanho fixo para a nossa lista, por padrão ele fica dinâmico, mas podemos, se quisermos. Para isso, basta colocar o tamanho da lista no contrutor quando estamos criando uma nova lista:
+
+  ArrayList<String> lista = new ArrayList<String>(5);
+
+Tem métodos para adicionar, remover, pegar um item, enfim. Sempre bom consultar a documentação.
+
+Como a ArrayList trabalha com um array por baixo dos panos, algumas coisas como remover itens do array, modificar o tamanho do array criado criando um novo quando exceder o limite padrão e etc. são muito custosas.
+
+============GENERICS============
+
+Exemplo:
+
+  ArrayList<String> lista = new ArrayList<String>();
+
+Generics são esses sinaizinhos "<>" que recebem um tipo no meio (fica parecido com uma tag xml) e servem para Garantir que uma lista só receba um tipo de referências. O polimorfismo ainda se aplica. 
+
+============ENHANCED FOR============
+
+Exemplo:
+
+  for (Object : lista) {
+    // implementar código
+  }
+
+É basicamente a mesma coisa que o for in do python.
+
+============Object.equals(<referência>);============
+
+Quando comparamos uma referência com outra usando o operador "==", nunca vai dar true, a não ser que as referências apontem para o mesmo objeto. Isso ocorre mesmo que as duas referências sejam identicas.
+
+A mesma coisa ocorre quando usamos o .equals();. Ele checa se é o mesmo objeto.
+
+A diferença do equals é que, como ele é um método de Object, ele pode ser sobrescrito, assim podemos fazer outra lógica de verificação nas nossas classes, assim podendo fazer a verificação pelos atributos.
+
+Algumas classes já fazem o override desse método, como a classe String, por exemplo, que quando chamamos o .equals();, ela checa o texto escrito na String, não a referência.
+
+============ArrayList.contains();============
+
+Checa se a lista contém tal referência. Para isso, chama o método .equals(); de Object que podemos sobrescrever.
+
+============java.util.LinkedList============
+
+Possui todos os métodos que ArrayList possui. Isso por que as duas classes implementam a mesma interface java.util.List, mas vou falar sobre ela depois.
+
+Diferentemente da ArrayList, a LinkedList não usa um array por baixo dos panos, mas sim implementa uma outra estrutura de dados chamada:
+
+  "lista duplamente encadeada"
+
+que é extensão da "lista simplesmente encadeada".
+
+Essa estrutura consiste em vários elementos que se lembram do elemento anterior e do elemento seguinte, o que torna as ações de remoção e adição de itens muita mais performática, mas também torna as ações de iteração pelos elementos da lista muito costusas, pois não existe forma de acessar diretamente um elemento, essas iterações sempre vão ir no primeiro item, que vai perguntar pro segundo, e assim por diante até chegar no elemento solicitado.
+
+============java.util.LinkedList x java.util.ArrayList============
+
+ArrayList tem mais performance para iterações e pegar itens específicos de uma lista, enquanto LinkedList tem mais performance para fazer ações de remoção e adição de itens.
+
+As duas listas são poderosas, cabe a nós sabermos qual é a mais adequada a ser utilizada conforme o contexto. 
+Na dúvida, escolhemos ArrayList.
+
+Podemos usar ambas em referências do tipo List, pois ambas sempre terão os mesmos métodos dessa interface.
+
+============java.util.List============
+
+É a interface que todos os tipos de lista (ArrayList, LinkedList e Vector) usam, ou seja, para esses três podemos utilizar o polimorfismo a partir dessa interface.
+
+============java.util.Arrays============
+
+É uma classe que possui vários métodos estáticos para trabalharmos com arrays (não ArrayList). Muito útil quando estamos trabalhando com o args do main.
+
+============java.util.Arrays.asList();============
+
+É um método que recebe um array e transforma em uma lista com todos os métodos de List, inclusive podendo usar o benefício do polimorfismo.
+
+============java.util.Vector============
+
+Assim como o ArrayList, usa um array por baixo dos panos, mas é uma opção threadsafe, ou seja, consegue ser acessada por 2 threads ao mesmo tempo, mas isso é meio raro de acontecer.
+
+============java.util.Collection============
+
+É uma interface que a interface List estende, assim como a interface Set.
+
+Tem alguns métodos que a interface List também tem, mas não tem nenhum dos métodos que mexem com índices, pois isso é uma coisa das listas, e não são só as listas que implementam essa método.
+
+============List x Set============
+
+Listas aceitam referências duplicadas sem nenhum problema, o que as vezes pode ser um problema quando temos uma lista de todas as contas no nosso sistema, por exemplo, onde não queremos nenhuma repetida.
+Listas usam índices.
+
+Sets não permitem referências duplicadas, e fazem isso por meio do hashCode(). de Object.
+Sets não usam índices.
+
+Sets = conjuntos.
+
+============AUTOBOXING x UBOXING============
+
+Primitivos não deveriam mais existir no Java, mas existem.
+
+Algumas coisas não funcionariam com primitivos, como colocá- los em uma lista, pois listas aceitam apenas referências, mas funcionam.
+Isso ocorre por que o Java transforma esses inteiros em referências, como "Integer" para int, o que faz com que eles possam ser usados nesses casos.
+O nome desse processo é Autoboxing, e Unboxing é o processo inverso, que consiste em tranformar uma referência de uma classe Wrapper em um primitivo novamente. Exemplo de código que usa os dois:
+
+  public int sumEvenNumbers(List<Integer> intList ) {
+      int sum = 0;
+      for (Integer i: intList )
+          if ( i % 2 == 0 )
+              sum += i;
+          return sum;
+  }
+
+Existem várias classes como alternativa para os primitivos. Essas são as classes Wrappers
+
+============MÉTODOS Integer============
+
+ref<Integer>.intValue();
+
+  É um método que faz o unboxing de uma referência Integer devolvendo um primitivo a partir dela.
+  Possui várias versões para transformar em diversos tipos primitivos.
+
+Integer.valueOf(int || String || ...);
+
+  É um método que faz o autoboxing a partir de um tipo primitivo int ou uma String com apenas caracteres numéricos.
+
+Integer.parseInt(String);
+
+  É um método que faz a conversão de uma String para o tipo primitivo int.
+
+O Integer possui algumas constantes (que vem de um Enum) que apresentam algumas informações sobre int para a gente. Por exemplo:
+
+  - MIN_VALUE: menor valor possível de int (negativo)
+  - MAX_VALUE: maior valor possível de int
+  - SIZE: número de bits de int
+  - BYTES: número de bytes de int
+
+ref<Integer>++ funciona!!!!
+O que acontece unboxing, incrementação e autoboxing, assim incrementando normalmente.
+
+Os outros Wrappers são quase a mesma coisa, só mudam algumas coisas específicas para cada um.
+
+============java.lang.Number============
+
+Todos os Wrappers numéricos herdam de Number, ou seja, number tem todos os métodos de Unboxing que os Wrappers numéricos tem e todas as referências de algum Wrapper numérico podem ser vistas como Number.
+
+
+
+
