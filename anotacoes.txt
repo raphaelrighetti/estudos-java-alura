@@ -250,7 +250,7 @@ O que ele realmente faz além de instanciar o objeto na abertura do bloco try é
 - IllegalArgumentException:
 
   Um argumento que não se encaixa nas regras foi passado para um método ou construtor.
-  
+
 ============PACKAGES============
 
 Packages são diretórios como os que temos no explorador de arquivos do Windows, mas não são apenas isso. Eles também mudam o jeito como vamos acessar as nossas classes, assim fazendo com que nós passemos o Full Qualified Name (FQN) delas. Isso significa chamar as classes com a sintaxe:
@@ -568,6 +568,77 @@ Os outros Wrappers são quase a mesma coisa, só mudam algumas coisas específic
 
 Todos os Wrappers numéricos herdam de Number, ou seja, number tem todos os métodos de Unboxing que os Wrappers numéricos tem e todas as referências de algum Wrapper numérico podem ser vistas como Number.
 
+============ORDENAÇÃO DE LISTAS============
 
+ref<List>.sort();
 
+  É um método que ordena os itens da nossa lista a partir de um Comparator.
 
+java.util.Comparator:
+
+  Comparator é uma interface que possui alguns métodos de comparação entre itens, como compare(); e reversed();. Esses métodos são bem parecidos com o Object.equals();, ou seja, podemos ter nossas próprias classes que implementam esses métodos para fazer a comparação.
+
+  Recebe Generics para saber com que tipo de objeto está lidando ao fazer as comparações.
+
+java.util.Comparator.compare();
+
+  É um método que compara dois itens e retorna um int:
+
+    - 0 se for igual
+    - Número negativo se for menor
+    - Número positivo se for maior
+
+  Note que podemos não respeitar essas regras na implementação, já que somos nós que fazemos a lógica de comparação, mas é sempre uma boa ideia seguir as boas práticas.
+
+  Note também que a lógica pode ser, no caso de comparação numérica, apenas o objeto 1 menos o objeto 2, pois se o objeto 2 for maior que o objeto 1, o resultado será negativo, se o objeto 2 for menor que o objeto 1, o resultado será positivo e se os dois objetos tiverem o mesmo valor, o resultado será 0.
+
+  Note também que a lógica não precisa ser complexa e nem ter ifs, podemos simplesmente usar os métodos compareTo(); ou compare(); dos Wrappers e de String.
+
+============COMPARANDO ORDEM ALFABÉTICA============
+
+String já possui um método de comparação de strings seguindo a ordem alfabética, que é o ref<String>.compareTo(ref<String>).
+Ele retorna um int seguindo as mesmas regras do java.util.Comparato.compare();, mas diferentemente dele não precisa ser implementado pela nossa classe, ele funciona perfeitamente do jeito que é.
+
+Para criarmos um comparator que compara em ordem alfabética, basta criarmos uma classe que implementa o método compare(); e fazer a lógica com base nesse compareTo(); de String (importante lembrar que não temos que fazer a lógica de retorno do int, pois o compareTo(); já faz isso para nós).
+
+Wrappers também tem o compareTo(); além de também terem um método estático compare(); que recebe por parâmetro dois doubles.
+
+============java.lang.Comparable============
+
+É uma interface que faz com que a classe que implementa seja comparável, ou seja, ter o método compareTo();. Nós que implementamos a lógica desse método, mas nada nos impede de usar os compareTo(); e compare(); dos Wrappers e de String.
+
+Usa Generics para saber com qual tipo se compara, normalmente recebendo o tipo da própria classe.
+
+É a interface que os Wrappers e String implementam.
+
+============java.util.Collections============
+
+É uma classe com vários métodos estáticos, inclusive para ordenação de coleções.
+
+É um jeito antiga e errado (se seguirmos as boas práticas) de fazer a ordenação, pois ter muitos métodos estáticos não é OO.
+
+============ORDEM NATURAL============
+
+Nos métodos de ordenação, na falta de um comparator, é usada a ordem natural da classe que a lista armazena.
+
+É a ordem natural da nossa classe, especificamos ela implementando o Comparable. Ela é usada na falta de um Comparator nos métodos de ordenação.
+
+Para usarmos os métodos de comparação sem um Comparator, nossa classe deve necessariamente ter implementado a interface Comparable, pois os métodos usarão os métodos compareTo(); ou compare(); da nossa classe por baixo dos panos, justamente por não ter um Comparator.
+
+No sort(); da classe Collections, basta passarmos apenas a lista para o método, sem o segundo parâmetro (que é o Comparator).
+
+No sort de List fica meio diferente. Em vez de só chamarmos o método sort(); sem passar nenhum parâmetro, temos que passar null como parâmetro.
+
+============Collections.rotate(<lista>, int);============
+
+É um método que muda a posição de um número de itens, começando do começo, para o final do array.
+
+============ORDENAR ARRAYS============
+
+Utilizando a classe Arrays, temos vários métodos para trabalhar com arrays, inclusive métodos de ordenação.
+
+============final============
+
+É uma palavra chave que significa que um atributo de uma classe pode ser atribuido apenas uma vez, ou seja, no construtor.
+
+No caso de listas, ainda podemos adicionar itens nela, o que não podemos mesmo fazer é mudar a referência.
