@@ -642,3 +642,86 @@ Utilizando a classe Arrays, temos vários métodos para trabalhar com arrays, in
 É uma palavra chave que significa que um atributo de uma classe pode ser atribuido apenas uma vez, ou seja, no construtor.
 
 No caso de listas, ainda podemos adicionar itens nela, o que não podemos mesmo fazer é mudar a referência.
+
+============FUNCTION OBJECTS============
+
+São objetos que se servem para trazer alguma funcionalidade, como uma classe que estende Comparator, que muitas vezes vai server apenas para fazer a comparação. Isso não segue o padrão de classes de que os dados e comportamentos devem estar agrupados, por isso esse nome diferente.
+
+============CLASSES ANÔNIMAS============
+
+Podemos criar classes anônimas no Java, ou seja, sem todo aquele processo de criar um novo arquivo .java, implementar a interface que queremos utilizar, enfim. A ideia de classe anônima é criar uma instância de um classe mesmo que não tenhamos dado nome e nem nada do tipo, justamente para evitar o uso dos Function Objects. Sintaxe:
+
+  lista.sort(
+    new Comparator<Conta>() {
+      // implementação do método compare();
+    }
+  );
+
+Como mostrado acima, não criaríamos uma nova classe para ser esse nosso comparator, mas sim colocaríamos uma classe anônima para fazer isso.
+
+É importante saber que mesmo parecendo que estamos criando uma instância da interface Comparator, não é isso o que ocorre. Na verdade, o compilador cria uma classe automaticamente com um nome gerado pelo próprio compilador e que implementa a interface Comparator (quando escrevemos o método compare();, devemos passar o @Override.
+
+Podemos atribuir classes anônimas à atibutos.
+
+============LAMBDA EXPRESSIONS============
+
+São bem parecidas com arrow functions no JavaScript e podemos usá-las como nossos Comparators, pois ela já irá saber que é um Comparator e funcionará como tal, sem mesmo termos que implementar a interface ou dar um @Override no compare();. Sintaxe:
+
+  lista.sort((m1, m2) -> Integer.compare(m1.getIdade(), m2.getIdade));
+
+Note que não precisamos colocar o tipo das referências recebidas por parâmetro (mas podemos), pelo tipo do Generics da nossa lista ela já saberá qual é o tipo.
+
+Importante saber que podemos abrir chaves para fazermos lógicas maiores e etc. Também é bom lembrar que lambdas não são usadas apenas em listas, podemos fazer muitas coisas com lambdas, assim como uma arrow function no JavaScript. Mais exemplos:
+
+  - (int a, int b) -> {  return a + b; }
+  - () -> System.out.println("Hello World");
+  - (String s) -> { System.out.println(s); }
+  - () -> 42
+  - () -> { return 3.1415 };
+  - a -> a > 10
+
+Por baixo dos panos, o compilador transforma tudo isso em classes, assim como ele faz com as nossas classes anônimas.
+
+Elas não são auto-executáveis.
+
+============.forEach();============
+
+É um método das listas que permite fazermos um for iterando por cada item da lista de forma mais enxuta e mais legível.
+
+Recebe um Consumer como parâmetro, ou seja, uma classe que implementa essa interface que permite consumirmos referências por meio do método accept(); e usarmos métodos delas, etc.
+
+Como sabemos da existência de Lambdas, podemos muito bem utilizá-las que vai ficar um código muito mais simples e bonito e não teremos que criar nenhuma classe anônima para isso, tornando as coisas muito mais enxutas.
+
+Expressões Lambda são um jeito de usar callback no Java.
+
+Pelo Java ser muito rígido em questão das regras que as vezes parece meio confuso ou meio complexo. No Java não existem funções fora de classes, todas as funções precisam ser métodos, então essa coisa de passar uma função de callback seria impossível sem as lambdas, que são as responsáveis por deixar mais simples a nossa escrita, mas que ainda criam as classes anônimas e fazem tudo que precisa ser feito por baixo dos panos.
+
+============java.util.Iterator============
+
+É uma interface que nos permite trabalhar com loops em qualquer collection, seja ela uma lista, um conjunto, um mapa, enfim.
+
+Ela possui os métodos hasNext();, que retorna um boolean se tiver um próximo elemento na coleção, e next();, que vai para o próximo item da coleção.
+
+Para usarmos, basta criar uma referência do tipo Iterator<> (usa Generics) e passarmos lista.iterator(); para ela. Esse método irá retornar um Iterator específico da nossa lista.
+
+============INSTANCIAÇÃO DE INTERFACES============
+
+É impossível instanciar interfaces no Java, sempre devemos implementar elas nas nossas classes. Isso muda apenas em classes anônimas, o que pode confundir bastante.
+
+Basicamente, quando usamos:
+
+  new <interface>(){}
+
+o Java gera uma classe anônima que implementa a interface passada no new. Já se escrevemos:
+
+  new <interface>();
+
+gera um erro, pois não podemos instanciar uma interface.
+
+Importante lembrar que Lambdas fazem isso por baixo dos panos, por isso que elas funcionam.
+
+Podemos atribuir classes anônimas para atributos.
+
+============java.io============
+
+É o pacote de Input e Output que serve muito para trabalhar com fluxo de dados, leitura de arquivos, dados que vem pela rede ou pelo usuário, enfim.
