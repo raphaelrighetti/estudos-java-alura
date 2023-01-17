@@ -725,3 +725,57 @@ Podemos atribuir classes anônimas para atributos.
 ============java.io============
 
 É o pacote de Input e Output que serve muito para trabalhar com fluxo de dados, leitura de arquivos, dados que vem pela rede ou pelo usuário, enfim.
+
+============java.io.FileInputStream============
+
+FileInputStream é uma classe que respresenta um fluxo de entrada por meio de um arquivo externo. Para passarmos o arquivo que queremos que seja lido nesse fluxo, temos que fazer isso no construtor da classe quando estamos instanciando. Esse construtor tem algumas implementações, algumas aceitando uma instância do tipo File (representa um arquivo) e uma que aceita uma String que é o caminho do arquivo (normalmente usamos esse).
+
+Essa classe tem alguns métodos, incluindo alguns de leitura, mas que são bem chatos de utilizar, pois retornam um inteiro que representa um byte.
+
+Joga uma exceção checked (FileNotFoundException), por isso precisamos ou tratar com try/catch, ou assinar o método com throws IOException.
+
+============java.io.InputStreamReader============
+
+É uma classe de leitura de InputStreams que deixa relativamente mais fácil de ler eles, mas ainda assim é meio chato, pois retorna um array de caracteres e um int que mostra quantos caracteres conseguiu preencher. Normalmente não queremos isso.
+
+Recebe um InputStream no construtor.
+
+============java.io.BufferedReader============
+
+Basicamente, um Reader que usa buffer, ou seja, vai guardando os caracteres no buffer até chegar em um limite. Usamos o método readLine(); para fazer a leitura de uma linha, sendo a quebra da linha o limite desse buffer. Se não tiver mais linhas para ler, retorna null.
+
+Recebe um StreamReader no construtor.
+
+============DECORATOR============
+
+É um padrão de desenvolvimento bastante usado no Java que consiste em ter várias classes que decoram as funcionalidades de outra, assim fazendo um encadeamento de chamada dos métodos, passando sempre do último e passando por todas. Isso ocorre nos Readers, como visto acima. O BufferedReader lê os arrays de caracteres do InputStreamReader, que por sua vez lê as informações do FileInputStream, cada uma melhorando as funcionalidades das outras.
+
+============FileNotFoundException============
+
+É uma exceção que ocorre quando o arquivo passado para o construtor do InputStream não é achado.
+
+============IOException============
+
+É a exceção mãe de todas as exceções do java.io. É checked, pois herda de Exception.
+
+============InputStream x Reader============
+
+São as duas categorias que existem nesse mundo de fluxo de entrada e saída, InputStreams sendo realmente o fluxo de entrada dos dados, que são bytes, no caso, e os Readers sendo os leitores desse fluxo, que representam esses bytes em caracteres e frases que nós podemos entender.
+
+Tanto InputStream quanto Reader são classes abstratas mães de todos os InputStreams, como FileInputStream, e Readers, como BufferedReader.
+
+Importante lembrar que temos Readers específicos para arquivos também, ou seja, não precisamos ficar fazendo todo esse processo de passar uma referência para a outra.
+
+Stream:
+
+  Dados binários.
+
+Reader / Writer:
+
+  Textos.
+
+============OutputStream x Writer============
+
+Basicamente o mesmo conceito de quando estamos trabalhando com InputStreams e Readers, mas no sentido contrário, passando para fora o fluxo de dados.
+
+Praticamente todas as classes que temos na entrada, temos na saída também, com diferença em métodos, pois precisamos de métodos de escrita e etc.
