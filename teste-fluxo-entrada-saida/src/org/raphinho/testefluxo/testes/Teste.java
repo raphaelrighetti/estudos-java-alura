@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 public class Teste {
 
     public static void main(String[] args) throws IOException {
-        FileInputStream fis = new FileInputStream("teste.txt");
+        FileInputStream fis = new FileInputStream("lorem-ipsum.txt");
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
 

@@ -1,0 +1,2 @@
+testando gravacao em arquivo
+123
