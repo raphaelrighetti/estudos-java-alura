@@ -779,3 +779,99 @@ Reader / Writer:
 Basicamente o mesmo conceito de quando estamos trabalhando com InputStreams e Readers, mas no sentido contrário, passando para fora o fluxo de dados.
 
 Praticamente todas as classes que temos na entrada, temos na saída também, com diferença em métodos, pois precisamos de métodos de escrita e etc.
+
+============System.in============
+
+É uma propriedade de System que nos permite receber inputs do console no tempo de execução, inclusive podendo ser utilizada em loops para escrevermos diversas vezes.
+
+============BufferedWriter.flush();============
+
+É um método que despeja o que foi guardado no BufferedWriter e limpa ele.
+
+============FLEXIBILIDADE EM STREAMS============
+
+Como toda Stream é uma Stream, não importa de onde vem o nosso fluxo, poderemos usar uma lógica muito semelhante para tratar esses fluxos de dados, não importa se estão vindo do console, da rede, de um arquivo, enfim.
+
+Importante lembrar que temos muitas classes de mais alto nível que trabalham com tudo isso falado até agora por baixo dos panos, mas é muito importante entender esses conceitos para saber realmente o que está acontecendo.
+
+============Socket============
+
+Socket é uma classe que representa uma conexão com algum servidor ou outra aplicação que também tem um InputStream e OutputStream, podendo ser pegos com os métodos getInputStream(); e getOutputStream();. Essas Streams funcionam como qualquer outra Stream, por exemplo FileInputStream, e podemos utilizar um código genérico para tratar esses fluxos.
+
+============FileWriter============
+
+É uma classe de mais alto nível que simplifica muito o processo de fazermos um Writer que escreve em um arquivo, sem ter que ficar criando desde o OutputStream e etc. Isso acontece pois a classe uso todo esse esquema que a gente viu por baixo dos panos, tirando essa responsabilidade da gente.
+
+É Closeable (possui o método close(); que é chamado automaticamente no try with resources) e tem quase todos os métodos que um BufferedWriter normal tem, mas não possui o método newLine();. Entretanto, podemos sim colocar linhas novas na nossa saída, para isso basta colocarmos os caracteres especiais de quebra de linha ("\r\n" ou "\n"). 
+Como esses caracteres podem mudar dependendo do sistema operacional que estamos usando, o System tem um método estático específico para retornar essa quebra de linha certa, que é o System.lineSeparator();. Bem intuitivo.
+
+Podemos também passar a nossa referência do FileWriter para o construtor do BufferedWriter, que muitas vezes pode ser melhor de se utilizar.
+
+Sempre bom lembrar que não precisamos passar uma instância para uma variável ou atributo, se precisamos passar para um construtor, é muito normal que criemos o objeto diretamente no construtor.
+
+============PrintStream || PrintWriter============
+
+PrintStream existe desde a primeira versão do Java, e era o único meio possível de escrever em algum output.
+
+Apesar de já ser bem antigo, funciona muito bem e é muito intuitivo, tendo um método println(); que funciona exatamente como o println(); do sout, só que funciona para qualquer OutputStream.
+
+PrintWriter é mais novo, mas é praticamente a mesma coisa que o PrintStream, a única coisa que muda é que não usa OutputStream por baixo dos panos, e sim Writers.
+
+Os dois podem receber uma String com o nome do arquivo no construtor, mas possuem diversos construtores diferentes para trabalharmos com outputs diferentes.
+
+(System.out é um PrintStream)
+
+============java.util.Scanner============
+
+É uma classe que vem de java.util, mas que server justamente para ler arquivos, contendo vários métodos específicos de leitura, inclusive dando a possibilidade de trabalharmos com arquivos .csv e etc.
+
+Diferentemente das classes de mais alto nível de escrita, o Scanner pode receber uma String no construtor, mas essa String não representa o nome do arquivo a ser lido, e sim será a fonte a ser escaneada. Se queremos ler arquivos com o Scanner, precisamos passar uma instância de File.
+
+============ref<Scanner>.hasNextLine();============
+
+Retorna um boolean que diz se a fonte ainda tem um próxima linha.
+
+============ref<Scanner>.nextLine();============
+
+Vai para a próxima linha (se ainda não tiver sido executado, vai pra primeira) e retorna o texto que está na linha.
+
+============SEPARANDO VALORES DAS LINHAS============
+
+Para separarmos os valores com base em algum separador, como a vírgula, no caso do csv, podemos tanto usar o método split(regex); de String, que retorna um array, quanto usar outro Scanner que irá escanear as linhas em si, não o arquivo.
+
+Quando instanciamos um Scanner, podemos usar alguns métodos a partir da referência que mudam algumas regras sobre esse Scanner.
+Um desses métodos é o useDelimiter(regex);, que irá aplicar um caractere ou mais de delimitador da nossa String que está sendo escaneada. Assim quando usamos o método next();, o que será retornado por ele é o valor após o delimitador (se não for o primeiro).
+Existem outros métodos next();, como nextInt();, nextDouble();, por exemplo, cada um retornando um valor do tipo especificado no nome.
+Isso pode gerar um problema na JVM, pois ela segue um padrão Locale baseado nas regras do país que está a língua do nosso sistema operacional, como a separação da casa inteira e da decimal, que no Brasil é separado por vírgula, já em outros países é separado por ponto. Para combater isso e usarmos um Locale específico, podemos usar o método useLocale(locale). É um método que recebe uma instância de Locale que nós mesmos podemos configurar, mas a classe Locale já tem várias constantes de Locales reais, como o Locale.US, que retorna uma instância de Locale que tem todas as configurações de um sistema estadunidense.
+
+============String.format(String template, valores...);============
+
+É o método de formatação de String do Java, usa aqueles trecos como %d, %s, etc. para definir que tipo é a variável que vai aparecer ali naquele lugar do template. tem várias coisas legais, mas devemos olhar sempre na documentação, é muita coisa para decorar.
+
+Pode receber um terceiro parâmetro que é o Locale.
+
+Podemos usar o .format(); diretamente no System.out.
+
+============java.util.Properties============
+
+É a classe que representa as propriedades definidas em arquivos .properties.
+
+Podemos criar propriedades com o método:
+
+  setProperty("chave", "valor");
+
+Essas propriedades ficarão gravadas na nossa instância, e pegamos elas com o método:
+
+  getProperty("chave_da_propriedade");
+
+Podemos criar arquivos .properties com o método:
+
+  store(new FileWriter("nomearquivo.properties"), "comentarios...");
+
+  Assim o arquivos será criado exatamente como precisamos para um arquivo .properties.
+
+Podemos ler arquivos .properties com o método:
+
+  load(new FileReader("nomearquivo.properties"));
+
+Depois basta acessar as propriedades com o getProperty();
