@@ -875,3 +875,47 @@ Podemos ler arquivos .properties com o método:
   load(new FileReader("nomearquivo.properties"));
 
 Depois basta acessar as propriedades com o getProperty();
+
+============UNICODE CODEPOINT============
+
+A tabela unicode é uma tabela que tenta ter todos os símbolos do mundo, e surgiu como uma alternativa ao ASCII, que sempre teve limitações quanto à isso.
+
+Codepoint é o número que representa o caractere e podemos achar o caractere por ele, como 0233, que é o símbolo "é". Usamos isso no Java.
+
+Encoding é a tabela que pega os caracteres do Unicode e traduz eles para dados binários. Existem vários encodings que funcionam de vários jeitos diferentes, mas como normalmente escrevemos em portguês com acentos e etc, o Encoding UTF-8 é o que sempre vamos utilizar.
+
+Os encodings podem variar dependendo do nosso sistema operacional.
+
+============ref<String>.codePointAt(index);============
+
+É um método de String que nos retorna o número do CodePoint do caractere que está no índice passado por parâmetro.
+
+============ARRAY DE BYTES NO CONSTRUTOR STRING============
+
+Podemos passar um array de bytes para criarmos uma nova String a partir desses bytes, mas para isso precisamos usar o construtor da classe String. Também podemos passar o Encoding como segundo parâmetro.
+
+============Charset============
+
+É uma classe abstrata que tem alguns métodos estáticos que podemos usar para pegar informações sobre os encodings disponíveis, qual é o padrão que está sendo utilizado, etc.
+
+============ref<String>.getBytes();============
+
+É um método de String que retorna os bytes de uma String e pode receber como parâmetro um Charset, ou uma String com o nome de um Charset.
+
+============java.nio.StandarCharsets============
+
+É uma classe que contém várias constantes que são os Encodings mais usados, assim podemos passar eles em vez de ficar passando o nome do encoding por String.
+
+============IMPORTÂNCIA CHARSETS============
+
+Os Charsets são muito importantes, pois sempre que temos um fluxo de entrada na nossa aplicação, estamos recebendo bytes que precisam ser interpretados (ou não, às vezes) por algum Encoding, o que pode dar um problemão se usarmos o errado.
+
+============ENCODING NO Scanner============
+
+No construtor do Scanner conseguimos definir o encoding que ele usará para interpretar os bytes. Fazemos isso no próprio construtor do nosso Scanner, normalmente sendo o segundo parâmetro que funciona com vários tipos de primeiro parâmetro.
+
+Não conseguimos passar encodings diretamente para Streams, pois eles leem justamente bits e bytes, só conseguimos passar encodings para Readers e Writers.
+
+Funciona de forma muito parecida para PrintWriter e PrintStream.
+
+As IDEs normalmente têm opções que nos permitem mudar o encoding padrão para tudo no nosso projeto, o que nos possibilita trabalhar em conjunto de qualquer sistema operacional para qualquer sistema operacional, basta sabermos ajustar isso.
