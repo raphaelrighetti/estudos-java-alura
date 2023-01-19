@@ -945,3 +945,13 @@ Esse atributo é o número da versão de serialização da nossa classe, e serve
 Se queremos aplicar a serialização em classes que herdam de outras classes, precisamos fazer com que todas as classes nessa hierarquia implementem Serializable, o que podemos fazer simplesmente implementando Serializable na classe mãe. Devemos lembrar que mesmo implementando Serializable por conta da mãe implementar, devemos criar o serialVersionUID individual para todas as classes da hierarquia.
 
 Quando se trata de composição, o objeto usado na composição também precisa ser Serializable, a não ser que ele seja transient, que é uma palavra chave que colocamos no atributo que vai fazer com que ele seja ignorado na serialização e sempre seja null.
+
+============default METHODS============
+
+Interfaces podem ter métodos concretos a partir do Java 8, basta serem declarados com a palavra chave "default" na frente.
+
+============Collections.unmodifiableList(List);============
+
+É um método de Collections que retorna uma lista apenas de leitura a partir de uma lista que já temos. Muito útil quando queremos encapsular uma lista nossa e fazer com que só seja possível modificar os itens dela a partir dos métodos da referência que possui essa lista.
+
+É importante lembrarmos que também não poderemos ordenar a nossa lista imutável, pois os métodos de ordenação mexem diretamente na lista, não retornam uma lista nova ordenada. Para fazermos isso, basta criarmos uma nova lista (outra instância) a partir do construtor de listas, passando a nossa lista imutável como argumento.
