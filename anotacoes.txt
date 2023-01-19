@@ -919,3 +919,29 @@ Não conseguimos passar encodings diretamente para Streams, pois eles leem justa
 Funciona de forma muito parecida para PrintWriter e PrintStream.
 
 As IDEs normalmente têm opções que nos permitem mudar o encoding padrão para tudo no nosso projeto, o que nos possibilita trabalhar em conjunto de qualquer sistema operacional para qualquer sistema operacional, basta sabermos ajustar isso.
+
+============SERIALIZAÇÃO============
+
+Serialização é o processo de transformar um objeto Java em um fluxo de bits e bytes e transformar um fluxo de bits e bytes em um objeto Java, o que é muito comum no mundo da programação, onde temos diversas entradas e saídas.
+
+Surgiu desde o começo no mundo Java para dar possibilidade de reutilizarmos funcionalidades que estão em outra JVM de outro serviço que temos e precisamos pegar por meio da rede.
+
+Podemos usar o ObjectOutputStream e o ObjectOutputStream para trabalhar com esses objetos serializados, ambos têm métodos muito bons para se trabalhar com isso.
+É importante lembrar que quando lemos um objeto serializado, ele sempre será lido com o tipo mais genérico possível, o Object, mas podemos usar o type cast para modificar para os tipos mais específicos que forem compatíveis com o objeto.
+Também é importante lembrar que o método readObject(); pode retornar uma ClassNotFoundException, pois se não tivermos a classe que o objeto pertence disponível, não será possível ter aquela instância na nossa aplicação.
+
+Quando tentamos serializar um objeto que não é de uma classe padrão do Java, podemos receber a exceção NotSerializableException, pois nossa classe não implementa a interface Serializable, que é uma interface vazia (sem nenhum método), mas que serve para fazer essa marcação. Essa interface só não é uma annotation por que não existiam annotations na época que ela foi criada. Só de implementarmos ela, já conseguimos serializar, mas é importante lembrar que sempre devemos colocar o serialVersionUID, pois sem ele o Java cria um automáticamente e pode ser que dê problemas.
+
+É muito raro usar serialização "na unha", mas é muito importante entender os conceitos para saber o que está acontecendo por baixo dos panos.
+
+============serialVersionUID============
+
+É um atributo que devemos inserir em nossa classe quando ela é Serializable.
+
+Esse atributo é o número da versão de serialização da nossa classe, e serve para que se o objeto que tentamos importar para nosso projeto não tiver a mesma versão, mesmo que seja da mesma classe, gere uma InvalidClassException. Isso é importante, pois podemos ter um objeto serializado que não possui todos os métodos e atributos da nossa classe atual por ser de uma versão antiga da classe.
+
+============SERIALIZAÇÃO HERANÇA/COMPOSIÇÃO============
+
+Se queremos aplicar a serialização em classes que herdam de outras classes, precisamos fazer com que todas as classes nessa hierarquia implementem Serializable, o que podemos fazer simplesmente implementando Serializable na classe mãe. Devemos lembrar que mesmo implementando Serializable por conta da mãe implementar, devemos criar o serialVersionUID individual para todas as classes da hierarquia.
+
+Quando se trata de composição, o objeto usado na composição também precisa ser Serializable, a não ser que ele seja transient, que é uma palavra chave que colocamos no atributo que vai fazer com que ele seja ignorado na serialização e sempre seja null.
