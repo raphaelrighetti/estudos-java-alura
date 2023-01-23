@@ -1,13 +1,12 @@
 package org.raphinho.cursos.modelos;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class Curso {
+public class Curso implements Comparable<Curso> {
 
     private String nome;
     private List<Aula> aulas = new ArrayList<>();
+    private Set<Aluno> alunos = new HashSet<>();
     private String professor;
 
     public Curso(String nome, String professor) {
@@ -31,11 +30,41 @@ public class Curso {
         aulas.remove(aula);
     }
 
+    public Set<Aluno> getAlunos() {
+        return Collections.unmodifiableSet(alunos);
+    }
+
+    public int getTotalAlunos() {
+        return alunos.size();
+    }
+
+    public void matricula(Aluno aluno) {
+        alunos.add(aluno);
+    }
+
+    public void removeAluno(Aluno aluno) {
+        alunos.remove(aluno);
+    }
+
     public String getProfessor() {
         return professor;
     }
 
     public int getTempoTotal() {
         return aulas.stream().mapToInt(Aula::getDuracao).sum();
+    }
+
+    @Override
+    public String toString() {
+        return "[Curso: " + nome +
+                ", Duração: " + getTempoTotal() +
+                ", Alunos: " + getTotalAlunos() +
+                ", Professor: " + professor +
+                "]";
+    }
+
+    @Override
+    public int compareTo(Curso curso) {
+        return Integer.compare(curso.getTotalAlunos(), getTotalAlunos());
     }
 }

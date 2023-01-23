@@ -1,34 +1,44 @@
 package org.raphinho.cursos.testes;
 
+import org.raphinho.cursos.modelos.Aluno;
 import org.raphinho.cursos.modelos.Aula;
 import org.raphinho.cursos.modelos.Curso;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Teste {
 
     public static void main(String[] args) {
+        List<Curso> cursos = new ArrayList<>();
+
         Curso java = new Curso("Curso de Java", "Raphael Righetti");
+        Curso python = new Curso("Curso de Python", "Raphael Righetti");
 
-        Aula aula1 = new Aula("Conhecendo Java", 15);
-        Aula aula2 = new Aula("Mais Java", 10);
-        Aula aula3 = new Aula("Java pra caramba", 30);
+        cursos.add(python);
+        cursos.add(java);
 
-        java.addAula(aula1);
-        java.addAula(aula2);
-        java.addAula(aula3);
+        Aluno raphael = new Aluno("Raphael", 1234);
+        Aluno kaique = new Aluno("Kaique", 4321);
+        Aluno banzoli = new Aluno("Banzoli", 5678);
 
-        System.out.println(java.getTempoTotal());
+        Aula aulaJava1 = new Aula("Conhecendo Java", 15);
+        Aula aulaJava2 = new Aula("Mais Java", 10);
+        Aula aulaJava3 = new Aula("Java pra caramba", 30);
+        Aula aulaPython1 = new Aula("Tudo sobre o Python", 500);
 
-        List<Aula> aulasImutaveis = java.getAulas();
+        java.addAula(aulaJava1);
+        java.addAula(aulaJava2);
+        java.addAula(aulaJava3);
 
-        List<Aula> aulasMutaveis = new ArrayList<>(aulasImutaveis);
+        java.matricula(raphael);
+        java.matricula(banzoli);
+        python.matricula(raphael);
+        python.matricula(kaique);
+        python.matricula(banzoli);
 
-        aulasMutaveis.sort(Comparator.comparingInt(Aula::getDuracao));
+        cursos.sort(null);
 
-        System.out.println(aulasMutaveis);
+        System.out.println(cursos);
     }
 }

@@ -955,3 +955,33 @@ Interfaces podem ter métodos concretos a partir do Java 8, basta serem declarad
 É um método de Collections que retorna uma lista apenas de leitura a partir de uma lista que já temos. Muito útil quando queremos encapsular uma lista nossa e fazer com que só seja possível modificar os itens dela a partir dos métodos da referência que possui essa lista.
 
 É importante lembrarmos que também não poderemos ordenar a nossa lista imutável, pois os métodos de ordenação mexem diretamente na lista, não retornam uma lista nova ordenada. Para fazermos isso, basta criarmos uma nova lista (outra instância) a partir do construtor de listas, passando a nossa lista imutável como argumento.
+
+Também existe o unmodifiableSet(Set);, que funciona de maneira muito semelhante.
+
+============Comparator.comparing();============
+
+A interface Comparator, que é a interface que serve para criarmos classes comparadoras, que é o tipo das referências geradas pelas lambdas quando passamos elas para métodos de ordenação, possui vários métodos estáticos que nos auxiliam a fazermos ordenações, inclusive métodos que retornam Comparators de forma mais simples do que criarmos uma classe anônima ou passarmos uma lambda expression, utilizando method reference, que é um recurso muito útil do Java 8.
+
+O method reference tem uma sintaxe estranha:
+
+  <tipo da referência>::<método a ser referenciado>
+
+O que acontece é que para todas as vezes que os métodos de ordenação forem executados e as instâncias forem comparadas, será utilizado o método específico que colocamos no method reference para a comparação.
+
+É importante lembrar que o Comparator tem vários métodos para vários tipos "primitivos", como comparingInt();, comparingLong();, etc. Todos esses métodos recebem method reference.
+
+============SETS============
+
+Não temos garantia de que ordem vão ficar os nossos itens dentro de um Set, ou seja, mesmo colocando em uma ordem específica, normalmente essa ordem não vai ser respeitada. Devido a essa característica, nenhum método de ordenação ou de acessar um item por um índice funciona em um Set. Mesmo assim, ainda podemos checar se um item existe em um Set utilizando o método contains(ref);. Creio que o método contains(ref); utilize o método equals(ref); por baixo dos panos.
+
+Qualquer tipo de Set não aceita elementos duplicados, nem mesmo Strings com valor igual. Mesmo que a gente adicione o mesmo elemento mais de uma vez em um Set, ele manterá apenas um.
+
+É muito utilizado por conta da velocidade surpreendemente maior com métodos de busca, remoção e inserção (Especialmente no HashSet). Essa velocidade maior ocorre por conta do uso de uma estrutura de dados diferete, que é a Hash Table(Tabela de Dispersão), que consiste em armazenar itens com uma chave (hash) que podem ter os valores acessados a partir delas, sem ter que fazer muitas iterações para essas ações.
+
+É uma coleção, herda de Collection assim como List, por isso tem vários métodos parecidos.
+
+(A diferença de performance é muito absurda em pesquisas!!)
+
+============Collections.emptySet();============
+
+Retorna um Set vazio e imutável, pode ser útil para quando alguém dá um get em algum set que não existe mais.
