@@ -42,6 +42,10 @@ public class Curso implements Comparable<Curso> {
         alunos.add(aluno);
     }
 
+    public boolean estaMatriculado(Aluno aluno) {
+        return alunos.contains(aluno);
+    }
+
     public void removeAluno(Aluno aluno) {
         alunos.remove(aluno);
     }

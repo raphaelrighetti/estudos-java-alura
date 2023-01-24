@@ -985,3 +985,35 @@ Qualquer tipo de Set não aceita elementos duplicados, nem mesmo Strings com val
 ============Collections.emptySet();============
 
 Retorna um Set vazio e imutável, pode ser útil para quando alguém dá um get em algum set que não existe mais.
+
+(temos vários métodos que retornam sets especiais na classe Collections, inclusive um para trabalhar com um set em threads múltiplas.)
+
+============Collection.contains(ref);============
+
+O método contains(); checa se um elemento passado por parâmetro está dentro de uma coleção.
+
+Precisamos ter em mente que devemos passar referências do tipo que a coleção armazena, não passar uma String com o valor que estária em um atributo de nossa referência.
+
+O jeito que esse método funciona por baixo dos panos é que ele retorna true se algum objeto dentro da coleção for equals(); ao objeto passado por parâmetro, ou seja, podemos manipular a lógica para saber se contém ou não. Por padrão será usado o equals(); de Object, que checa se realmente é a mesma referência.
+
+No entanto, o contains não funciona dessa forma quando estamos trabalhando com Sets e HashSets, especificamente. Isso ocorre por que não é necessário passar por vários elementos do conjunto perguntando se ele é igual a outro elemento, o contains no Set simplesmente pesquisa pelo código hash (hashCode) e responde se achou o elemento ou não. Podemos mudar a lógica do método hashCode();, que é o método que retorna o hashCode do objeto, para ele não ser um aleatório, e sim, ter uma lógica de criação. A classe String já tem um método hashCode que gera um hashCode bom que sempre será o mesmo se a String for igual, podemos utilizar esse método quando formos sobrescrever o hashCode(); da nossa classe, usando algum atributo que será fixo para gerar esse hashCode. Assim o contains funcionará perfeitamente quando quisermos comparar um objeto que não é literalmente o mesmo, mas que é igual (na nossa definição de igual).
+
+É uma boa prática sempre que sobrescrevermos o método equals();, também sobrescrevermos o método hashCode();.
+
+============Objects.hash(args...);============
+
+É um método estático da classe Objects (que possui vários métodos estáticos para trabalhar com objetos) que retorna um hashcode a partir de uma sequencia de argumentos, normalmente sendo atributos de alguma classe.
+
+Muito útil para gerarmos hashcodes compatíveis com outras lógicas de contains();.
+
+============LinkedHashSet============
+
+Diferentemente do HashSet, guarda a ordem na qual os itens foram adicionados no set, mas mesmo assim não tem os métodos de acesso por índice e etc, só irá mudar a ordem percorrida no forEach(); e etc.
+
+============TreeSet============
+
+É um Set que só funciona com classes que implementam Comparable, ou passando um comparator na construção do Set, usa uma estrutura de dados diferente, porém bem rápida para pesquisas, e sempre mantém a ordem natural dos itens, o que é .
+
+============ITERATOR============
+
+Podemos usar o Iterator para iterar pelos itens de qualquer coleção, e é isso que o foreach faz por baixo dos panos.

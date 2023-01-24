@@ -19,6 +19,7 @@ public class Teste {
         cursos.add(java);
 
         Aluno raphael = new Aluno("Raphael", 1234);
+        Aluno raphaelTambem = new Aluno("Raphael", 1234);
         Aluno kaique = new Aluno("Kaique", 4321);
         Aluno banzoli = new Aluno("Banzoli", 5678);
 
@@ -36,6 +37,14 @@ public class Teste {
         python.matricula(raphael);
         python.matricula(kaique);
         python.matricula(banzoli);
+
+        System.out.println(raphael.hashCode());
+        System.out.println(raphaelTambem.hashCode());
+
+        System.out.println("raphael.equals(raphaelTambem) ?");
+        System.out.println(raphael.equals(raphaelTambem));
+        System.out.println("Está matriculado?");
+        System.out.println(java.estaMatriculado(raphaelTambem));
 
         cursos.sort(null);
 
