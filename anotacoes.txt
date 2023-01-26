@@ -958,18 +958,6 @@ Interfaces podem ter métodos concretos a partir do Java 8, basta serem declarad
 
 Também existe o unmodifiableSet(Set);, que funciona de maneira muito semelhante.
 
-============Comparator.comparing();============
-
-A interface Comparator, que é a interface que serve para criarmos classes comparadoras, que é o tipo das referências geradas pelas lambdas quando passamos elas para métodos de ordenação, possui vários métodos estáticos que nos auxiliam a fazermos ordenações, inclusive métodos que retornam Comparators de forma mais simples do que criarmos uma classe anônima ou passarmos uma lambda expression, utilizando method reference, que é um recurso muito útil do Java 8.
-
-O method reference tem uma sintaxe estranha:
-
-  <tipo da referência>::<método a ser referenciado>
-
-O que acontece é que para todas as vezes que os métodos de ordenação forem executados e as instâncias forem comparadas, será utilizado o método específico que colocamos no method reference para a comparação.
-
-É importante lembrar que o Comparator tem vários métodos para vários tipos "primitivos", como comparingInt();, comparingLong();, etc. Todos esses métodos recebem method reference.
-
 ============SETS============
 
 Não temos garantia de que ordem vão ficar os nossos itens dentro de um Set, ou seja, mesmo colocando em uma ordem específica, normalmente essa ordem não vai ser respeitada. Devido a essa característica, nenhum método de ordenação ou de acessar um item por um índice funciona em um Set. Mesmo assim, ainda podemos checar se um item existe em um Set utilizando o método contains(ref);. Creio que o método contains(ref); utilize o método equals(ref); por baixo dos panos.
@@ -1017,3 +1005,85 @@ Diferentemente do HashSet, guarda a ordem na qual os itens foram adicionados no 
 ============ITERATOR============
 
 Podemos usar o Iterator para iterar pelos itens de qualquer coleção, e é isso que o foreach faz por baixo dos panos.
+
+============Map && HashMap============
+
+Maps guardam itens com um modelo "chave / valor", e são muito úteis para conseguirmos pesquisar um aluno por matrícula, seguindo o exemplo usado no curso até agora. Se fôssemos fazer isso apenas usando um HashSet, teríamos que ter um for que iterasse por todos os itens do Set, o que pesa muito e, normalmente, não é uma boa ideia.
+
+Basicamente, serve para pesquisarmos objetos por meio de alguma chave, normalmente sendo alguma propriedade do objeto que estamos procurando.
+
+Usa tabela de espalhamento, ou seja, as buscas são muito rápidas.
+
+Podemos iterar pelos itens de um mapa usando o keySet();, que retorna um conjunto com as chaves do Map, usando o values();, que retorna uma coleção só com os valores, ou usando o entrySet();, que retorna uma coleção de Entry, que são objetos de chave valor.
+
+Exemplo de declaração:
+
+Map<Integer, Aluno> mapa = new HashMap<>();
+
+============ref<HashMap>.put(chave, objeto);============
+
+É um método que adiciona um novo item no mapa, já criando com a chave, que é o primeiro parâmetro passado.
+
+============ref<HashMap>.get(chave);============
+
+Funciona parecido com o get de List, mas não passamos um índice, passamos a chave que cadastramos pro item.
+
+============ref<HashMap>.containsKey(chave);============
+
+Checa se a chave passada existe no mapa, retornando um boolean.
+
+============LinkedHashMap============
+
+Mesma ideia que o LinkedHashSet, mantém a ordem em que os itens foram adicionados. Normalmente não utilizamos essa classe, mas ela existe.
+
+============Hashtable============
+
+É a opção de Map thread-safe, mas existem outras formas melhores de trabalhar com Maps em threads múltiplos.
+
+============Comparator.comparing();============
+
+A interface Comparator, que é a interface que serve para criarmos classes comparadoras, que é o tipo das referências geradas pelas lambdas quando passamos elas para métodos de ordenação, possui vários métodos estáticos que nos auxiliam a fazermos ordenações, inclusive métodos que retornam Comparators de forma mais simples do que criarmos uma classe anônima ou passarmos uma lambda expression, utilizando method reference, que é um recurso muito útil do Java 8.
+
+É importante lembrar que o Comparator tem vários métodos para vários tipos "primitivos", como comparingInt();, comparingLong();, etc. Todos esses métodos recebem method reference.
+
+Retorna um comparator a partir de um valor retornado de uma Function, que por sua vez pode ser criada a partir de um method reference ou um lambda.
+
+============Function<T, R>============
+
+Generics:
+
+  O primeiro é o tipo da referência recebida e o segundo o tipo de retorno da Function.
+
+É uma interface funcional que possui o método apply, que pega um argumento passado para a interface e aplica retorna algum valor aplicando alguma lógica que nós implementamos. Possui alguns outros métodos default e etc., mas por ser uma interface funcional, normalmente utilizamos lambdas ou method references que vão gerar essa Function.
+
+Um exemplo de método que recebe como parâmetro essa interface funcional é o Comparator.comparing(Function<T, R>);, que retorna um Comparator usando o valor de retorno dessa Function.
+
+============METHOD REFERENCE============
+
+Method Reference tem uma sintaxe meio esquista:
+
+  <Tipo>::<método a ser chamado>
+
+e serve para escrevermos nosso código de forma ainda mais sucinta que quando usamos os lambdas.
+
+Assim como os lambdas, só podem ser usados para a criação de interfaces funcionais, mas diferentemente dos lambdas, method references só servem quando a expressão que precisamos passar para o método da interface funcional é um chamado simples a um método da classe que a referencia recebida por parâmetro pertence (temos que tomr cuidado quando estamos trabalhando com muito polimorfismo nesses casos).
+
+============stream();============
+
+Todas as coleções possuem o método stream, que retorna um fluxo de objetos (não é uma coleção) que possui vários métodos que podemos usar na manipulação de nossas coleções, como o filter(predicate);, por exemplo.
+
+stream(); segue um design pattern que nos permite encadear vários métodos, pois sempre é retornado o fluxo que possui esses métodos.
+
+Tudo que fazemos usando stream(); não impacta diretamente na coleção em que estamos usando o stream();, todos os métodos retornam o fluxo de objetos modificado sem modificar a lista original em si.
+
+============stream().filter(predicate);============
+
+Recebe um Predicate, que é uma interface funcional que recebe uma que roda uma expressão com a referência passada e retorna true ou false, dependendo do resultado do teste. As ocorrências que forem true permanecerão após o filtro ser aplicado, e as que forem false não.
+
+============stream().map(function);============
+
+Mapeia o stream(); para outro stream(); com base na expressão passada (recebe uma Function).
+
+Por exemplo, podemos ter um .map(); que pega um stream(); de alunos e mapeia para outro stream(); apenas com o CPF dos alunos, usando o método getCpf();.
+
+Temos outras alternativas de mapeamento para numéricos, como mapToInt();, mapToLong(); e mapToDouble();. Todos esses maps específicos nos retornam streams diferentes (IntStream, LongStream, DoubleStream), que têm vários métodos diferentes e específicos para se trabalhar com valores numéricos.

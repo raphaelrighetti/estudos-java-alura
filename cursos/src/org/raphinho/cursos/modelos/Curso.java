@@ -7,6 +7,7 @@ public class Curso implements Comparable<Curso> {
     private String nome;
     private List<Aula> aulas = new ArrayList<>();
     private Set<Aluno> alunos = new HashSet<>();
+    private Map<Integer, Aluno> matriculaParaAluno = new HashMap<>();
     private String professor;
 
     public Curso(String nome, String professor) {
@@ -40,14 +41,19 @@ public class Curso implements Comparable<Curso> {
 
     public void matricula(Aluno aluno) {
         alunos.add(aluno);
+        matriculaParaAluno.put(aluno.getNumMatricula(), aluno);
     }
 
-    public boolean estaMatriculado(Aluno aluno) {
-        return alunos.contains(aluno);
+    public Aluno buscaMatriculado(int matricula) {
+        return matriculaParaAluno.get(matricula);
     }
 
     public void removeAluno(Aluno aluno) {
         alunos.remove(aluno);
+    }
+
+    public boolean estaMatriculado(Aluno aluno) {
+        return alunos.contains(aluno);
     }
 
     public String getProfessor() {
