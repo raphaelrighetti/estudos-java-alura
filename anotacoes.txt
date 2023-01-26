@@ -1076,6 +1076,8 @@ stream(); segue um design pattern que nos permite encadear vários métodos, poi
 
 Tudo que fazemos usando stream(); não impacta diretamente na coleção em que estamos usando o stream();, todos os métodos retornam o fluxo de objetos modificado sem modificar a lista original em si.
 
+Para trabalharmos com múltiplas Threads em streams, basta usarmos o método parallelStreamm();, que nos será retornado uma stream paralela.
+
 ============stream().filter(predicate);============
 
 Recebe um Predicate, que é uma interface funcional que recebe uma que roda uma expressão com a referência passada e retorna true ou false, dependendo do resultado do teste. As ocorrências que forem true permanecerão após o filtro ser aplicado, e as que forem false não.
@@ -1117,3 +1119,29 @@ toMap(Function, Function):
   Recebe duas Functions por parâmetro. A primeira é a que irá retornar o valor da chave e a segunda é a que vai retornar o valor do valor.
 
   O forEach(); é diferente nesse caso, temos que passar um BiConsumer. Esse BiConsumer é um Consumer que recebe dois parâmetros.
+
+============LocalDate============
+
+É uma classe que representa uma data, normalmente no formato:
+
+  "YYYY-MM-DD"
+
+e possui vários métodos (estáticos também) para criarmos datas e extrairmos informações sobre elas (temos vários getters).
+
+Podemos formatar as nossas datas com o DateTimeFormatter utilizando o método ofPattern("padrão a ser utilizado");
+
+É importante lembrar que temos classes que representam apenas ano, mês, dia, enfim. Se precisarmos só dessas informações separadas, não precisamos ficar fazendo gambiarras com o LocalDate.
+
+Também temos a classe LocalDateTime, que é quase a mesma coisa que a LocalDate, mas também guarda informações sobre o horário. Importante lembrarmos que podemos transformar LocalDateTime em LocalDate e vice-versa.
+
+Também temos a classe LocalTime, que representa só o horário sem a data.
+
+Podemos trabalhar com timezones usando a classe ZonedDateTime.
+
+============Period============
+
+É uma classe que representa um período de tempo.
+
+Pode ser usado pra calcular o período entre duas datas com o método between(LocalDate, LocalDate);.
+
+Temos também a classe Duration para trabalhar com intervalos de horas.
