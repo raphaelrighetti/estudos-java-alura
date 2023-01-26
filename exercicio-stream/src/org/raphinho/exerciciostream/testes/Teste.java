@@ -3,8 +3,8 @@ package org.raphinho.exerciciostream.testes;
 import org.raphinho.exerciciostream.modelos.Curso;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Teste {
 
@@ -16,11 +16,11 @@ public class Teste {
         cursos.add(new Curso("Java 8", 113));
         cursos.add(new Curso("C", 55));
 
-        cursos.stream()
+        cursos = cursos.stream()
                 .filter(c -> c.getAlunos() >= 50)
                 .sorted((c1, c2) -> Integer.compare(c2.getAlunos(), c1.getAlunos()))
-                .map(Curso::getNome)
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
 
+        System.out.println(cursos);
     }
 }

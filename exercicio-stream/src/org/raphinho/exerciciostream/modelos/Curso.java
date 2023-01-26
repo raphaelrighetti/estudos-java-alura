@@ -17,4 +17,9 @@ public class Curso {
     public int getAlunos() {
         return alunos;
     }
+
+    @Override
+    public String toString() {
+        return "[Nome: " + nome + ", Alunos: " + alunos + "]";
+    }
 }

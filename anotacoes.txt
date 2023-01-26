@@ -1087,3 +1087,33 @@ Mapeia o stream(); para outro stream(); com base na expressão passada (recebe u
 Por exemplo, podemos ter um .map(); que pega um stream(); de alunos e mapeia para outro stream(); apenas com o CPF dos alunos, usando o método getCpf();.
 
 Temos outras alternativas de mapeamento para numéricos, como mapToInt();, mapToLong(); e mapToDouble();. Todos esses maps específicos nos retornam streams diferentes (IntStream, LongStream, DoubleStream), que têm vários métodos diferentes e específicos para se trabalhar com valores numéricos.
+
+============Optional<>============
+
+É uma classe que nos ajuda a trabalhar com objetos que podem vir com valor "null", para assim não precisarmos ficar fazendo toda hora vários ifs, try/catch, etc. para tratar as possíveis exceções.
+
+É o tipo retornado pelos métodos de find do stream, que por sua vez também tem vários métodos que podemos usar para trabalhar com esses objetos opcionais, como o orElse();, que retorna o valor passado no parâmetro, se não for encontrado, ou o método ifPresent();, que executa a utiliza o consumer passado por parâmetro se o elemento existir.
+
+Existem muitos métodos nesse Optional e é bom dar uma estudada depois.
+
+Também existem Optionals para tipos primitivos numéricos, como OptionalDouble, que é retornado pelo método average(); do IntStream, pois podem acontecer exceções como divisão por zero e coisas do tipo.
+
+============collect();============
+
+É um método que recebe um Collector como parâmetro e, a partir desse Collector, retorna uma nova coleção (Set, List), que vai depender do Collector que utilizamos.
+
+============Collector============
+
+É uma interface que define vários métodos que uma classe precisa ter para ser um Collector.
+
+============Collectors============
+
+É uma classe que possui vários métodos estáticos que auxiliam a gente a trabalhar com Collectors.
+
+É nessa classe que temos os métodos toList();, toSet();, toMap();, etc., que são os métodos que geram novos Collectors para a gente, assim podendo passar eles como argumento para o método collect(); do stream.
+
+toMap(Function, Function):
+
+  Recebe duas Functions por parâmetro. A primeira é a que irá retornar o valor da chave e a segunda é a que vai retornar o valor do valor.
+
+  O forEach(); é diferente nesse caso, temos que passar um BiConsumer. Esse BiConsumer é um Consumer que recebe dois parâmetros.
